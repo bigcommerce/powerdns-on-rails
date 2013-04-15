@@ -50,7 +50,11 @@ class DomainsController < InheritedResources::Base
         rescue ActiveRecord::RecordInvalid => e
           @domain.attach_errors(e)
 
-          render :action => :new
+          respond_to do |format|
+            format.html { render :action => :new }
+            format.json { render :text => t(:message_domain_name_exists), :status => 422 }
+          end
+
           return
         end
       end
