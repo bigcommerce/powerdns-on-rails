@@ -111,6 +111,33 @@ describe DomainsController, "when creating" do
     response.should be_redirect
   end
 
+  it "should fail for duplicate domain name" do
+    domain = {
+        :name => 'porkchopsandwiches.net', 
+        :type => 'MASTER', 
+        :primary_ns => 'ns1.porkchopsandwiches.net',
+        :contact => 'admin@porkchopsandwiches.net', 
+        :refresh => 10800, 
+        :retry => 7200,
+        :expire => 604800, 
+        :minimum => 10800, 
+        :zone_template_id => ""
+    }
+
+    expect { 
+      post 'create', 
+      :domain => domain,
+      :format => :json
+    }.to change( Domain, :count ).by(1)
+
+    expect {
+      post 'create', 
+      :domain => domain,
+      :format => :json
+    }.to change( Domain, :count ).by(0)
+
+    response.code.should == "422"
+  end
 end
 
 describe DomainsController do
