@@ -112,17 +112,9 @@ describe DomainsController, "when creating" do
   end
 
   it "should fail for duplicate domain name" do
-    domain = {
-        :name => 'porkchopsandwiches.net', 
-        :type => 'MASTER', 
-        :primary_ns => 'ns1.porkchopsandwiches.net',
-        :contact => 'admin@porkchopsandwiches.net', 
-        :refresh => 10800, 
-        :retry => 7200,
-        :expire => 604800, 
-        :minimum => 10800, 
-        :zone_template_id => ""
-    }
+    domain = FactoryGirl.attributes_for(:domain)
+    domain[:type] = 'MASTER'
+    domain[:name] = 'porkchopsandwiches.net'
 
     expect { 
       post 'create', 
