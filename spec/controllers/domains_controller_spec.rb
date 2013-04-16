@@ -111,6 +111,25 @@ describe DomainsController, "when creating" do
     response.should be_redirect
   end
 
+  it "should fail for duplicate domain name" do
+    domain = FactoryGirl.attributes_for(:domain)
+    domain[:type] = 'MASTER'
+    domain[:name] = 'porkchopsandwiches.net'
+
+    expect { 
+      post 'create', 
+      :domain => domain,
+      :format => :json
+    }.to change( Domain, :count ).by(1)
+
+    expect {
+      post 'create', 
+      :domain => domain,
+      :format => :json
+    }.to change( Domain, :count ).by(0)
+
+    response.code.should == "422"
+  end
 end
 
 describe DomainsController do

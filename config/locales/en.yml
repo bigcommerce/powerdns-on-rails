@@ -512,6 +512,7 @@ en:
   message_domain_created: "Domain created"
   message_domain_updated: "Domain updated"
   message_domain_macro_applied: "Macro applied to domain"
+  message_domain_name_exists: "Duplicate domain name exists"
 
 # macro_steps_controller
   message_macro_step_removed: "Macro step removed"
