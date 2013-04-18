@@ -9,7 +9,11 @@ class DomainsController < InheritedResources::Base
   protected
 
   def collection
-    @domains = Domain.user( current_user ).paginate :page => params[:page]
+    if params[:name]
+      @domains = Domain.user( current_user ).by_name(params[:name]).paginate :page => params[:page]
+    else
+     @domains = Domain.user( current_user ).paginate :page => params[:page]
+    end
   end
 
   def resource
