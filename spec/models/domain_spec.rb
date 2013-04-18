@@ -110,7 +110,16 @@ describe Domain, "scopes" do
   let(:aaron) { FactoryGirl.create(:aaron) }
   let(:quentin_domain) { FactoryGirl.create(:domain, :user => quentin) }
   let(:aaron_domain) { FactoryGirl.create(:domain, :name => 'example.org', :user => aaron) }
+  let(:aaron2_domain) { FactoryGirl.create(:domain, :name => 'example2.org', :user => aaron) }
   let(:admin) { FactoryGirl.create(:admin) }
+
+  it "should filter by name when domain exists" do
+    aaron_domain
+    aaron2_domain
+    
+    Domain.by_name('example.org').should include(aaron_domain)
+    Domain.by_name('example.org').should_not include(aaron2_domain)
+  end
 
   it "should show all domains to an admin" do
     quentin_domain
