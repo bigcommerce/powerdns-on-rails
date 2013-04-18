@@ -52,7 +52,7 @@ class DomainsController < InheritedResources::Base
 
           respond_to do |format|
             format.html { render :action => :new }
-            format.all { render :text => t(:message_domain_name_exists), :status => :unprocessable_entity }
+            format.all { render :json => @domain.errors, :status => :unprocessable_entity }
           end
 
           return
